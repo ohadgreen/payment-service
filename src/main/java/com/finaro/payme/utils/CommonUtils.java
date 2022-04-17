@@ -3,11 +3,13 @@ package com.finaro.payme.utils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.validator.routines.EmailValidator;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.Date;
 
 @Slf4j
@@ -17,6 +19,7 @@ public class CommonUtils {
     }
 
     public static Timestamp convertStringToTimestamp(String strDate) {
+//        TODO: extract "20" and "MMyyyy" to props file
         if (strDate.length() < 4) {
             return null;
         }
@@ -63,6 +66,16 @@ public class CommonUtils {
             isSecond = !isSecond;
         }
         return (nSum % 10 == 0);
+    }
+
+    public static String base64Encoder(String rawString) {
+        try {
+            byte[] bytes = rawString.getBytes(StandardCharsets.UTF_8);
+            return Base64.getEncoder().withoutPadding().encodeToString(bytes);
+        } catch (Exception e) {
+            log.error("encoding error");
+            return null;
+        }
     }
 
     protected boolean emailValidationWrapper(String email, boolean allowLocal) {

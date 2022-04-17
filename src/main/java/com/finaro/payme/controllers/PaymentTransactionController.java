@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -39,7 +38,7 @@ public class PaymentTransactionController {
 
     @GetMapping("payment/{invoiceId}")
     public ResponseEntity<PaymentTransactionDto> getPaymentTransaction(@PathVariable("invoiceId") @NotNull String invoiceId) {
-        PaymentTransactionDto paymentByInvoiceId = invoiceService.findPaymentByInvoiceId(Long.valueOf(invoiceId));
+        PaymentTransactionDto paymentByInvoiceId = invoiceService.findInvoiceById(Long.valueOf(invoiceId));
         if (paymentByInvoiceId == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
